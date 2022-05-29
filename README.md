@@ -65,3 +65,30 @@ if((calc_zval < crit_zval &&
 ```
 
 Sesuai dengan kode yang dilampirkan, karena nilai z yang dihitung berada pada rejection zone, maka H0 ditolak.
+
+## Nomor 2
+Diketahui bahwa mobil dikemudikan rata-rata lebih dari 20.000 kilometer per tahun.Untuk menguji klaim ini, 100 pemilik mobil yang dipilih secara acak diminta untuk mencatat jarak yang mereka tempuh. Jika sampel acak menunjukkan rata-rata 23.500 kilometer dan standar deviasi 3900 kilometer. (Kerjakan menggunakan library seperti referensi pada modul).
+
+#### Point A
+```
+data:  dataset
+t = 9.7619, df = 99, p-value = 3.618e-16
+alternative hypothesis: true mean is not equal to 20000
+95 percent confidence interval:
+ 22992.39 24519.21
+sample estimates:
+mean of x 
+  23755.8 
+```
+Apakah Anda setuju dengan klaim tersebut?
+ya, karena hasil t test menunjukkan nilai p adalah signifikan sehingga menolak H0, dengan CI 95% dan rentang nilai  22992.39 - 24519.21 yang mana berada diatas 20.000.
+
+#### Point B
+Jelaskan maksud dari output yang dihasilkan!
+ditemukan nilai tval = 9.0723 yang menunjukkan adanya perbedaan besar antara hasil perhitungan dengan asumsi awal, nilai p yang < 0.025 yang berarti significance test menyatakan h0 dapat ditolak. Dihasilkan juga selang kepercayaan dengan rata-rata jarak tempuh 22645 hinggga 24126.
+
+#### Point C
+Buatlah kesimpulan berdasarkan P-Value yang dihasilkan!
+p value yang dihasilkan memiliki nilai lebih kecil daripada 0.025, sehingga hipotesis null ditolak.
+
+
