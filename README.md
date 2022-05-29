@@ -290,3 +290,190 @@ ggplot(data=df,
   >
 </p>
 
+## Nomor 5
+Data yang digunakan merupakan hasil eksperimen yang dilakukan untuk mengetahui pengaruh suhu operasi (100˚C, 125˚C dan 150˚C) dan tiga jenis kaca
+pelat muka (A, B dan C) pada keluaran cahaya tabung osiloskop. Percobaan dilakukan sebanyak 27 kali dan didapat data sebagai berikut: Data Hasil Eksperimen. Dengan data tersebut:
+
+```
+df <- read.csv(url("https://docs.google.com/uc?export=download&id=1aLUOdw_LVJq6VQrQEkuQhZ8FW43FemTJ"))
+```
+
+#### Point A
+Buatlah plot sederhana untuk visualisasi data
+
+```
+qplot(x = Temp, y = Light, color = Glass, geom = "point", data = df) +
+      facet_grid(.~Glass, labeller = label_both)
+```
+
+<p align="center">
+  <img 
+    width="300"
+    height="300"
+    src="https://user-images.githubusercontent.com/78489357/170881890-7afd782b-1d83-44f7-95b5-69a28a9a5ad4.png"
+  >
+</p>
+
+#### Point B
+Lakukan uji ANOVA dua arah
+
+```
+df$Glass <- as.factor(df$Glass)
+df$Temp <- as.factor(df$Temp)
+data.aov2 <- aov(Light ~ Temp * Glass, data = df)
+summary(data.aov2)
+
+            Df  Sum Sq Mean Sq F value   Pr(>F)    
+Temp         2 1970335  985167  2695.3  < 2e-16 ***
+Glass        2  150865   75432   206.4 3.89e-13 ***
+Temp:Glass   4  290552   72638   198.7 1.25e-14 ***
+Residuals   18    6579     366                     
+```
+
+#### Point C
+Tampilkan tabel dengan mean dan standar deviasi keluaran cahaya untuk setiap perlakuan (kombinasi kaca pelat muka dan suhu operasi)
+
+```
+group_by(df, Glass, Temp) %>%
+  summarise(
+    count = n(),
+    mean = mean(Light, na.rm = TRUE),
+    sd = sd(Light, na.rm = TRUE)
+  )
+  
+  # A tibble: 9 × 5
+# Groups:   Glass [3]
+  Glass Temp  count  mean    sd
+  <fct> <fct> <int> <dbl> <dbl>
+1 A     100       3  573.  6.43
+2 A     125       3 1087.  2.52
+3 A     150       3 1386   6   
+4 B     100       3  553  24.6 
+5 B     125       3 1035  35   
+6 B     150       3 1313  14.5 
+7 C     100       3  573. 26.5 
+8 C     125       3 1055. 10.6 
+9 C     150       3  887. 18.6 
+```
+
+#### Point D
+Lakukan uji Tukey
+
+```
+data.aov2.factor = aov(Light ~ Temp * Glass, data = df)
+tukey = TukeyHSD(data.aov2.factor)
+print(tukey)
+
+Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = Light ~ Temp * Glass, data = df)
+
+$Temp
+            diff      lwr      upr p adj
+125-100 492.6667 469.6651 515.6682     0
+150-100 628.8889 605.8874 651.8904     0
+150-125 136.2222 113.2207 159.2238     0
+
+$Glass
+          diff        lwr       upr     p adj
+B-A  -48.33333  -71.33487  -25.3318 0.0001206
+C-A -177.11111 -200.11265 -154.1096 0.0000000
+C-B -128.77778 -151.77932 -105.7762 0.0000000
+
+$`Temp:Glass`
+                    diff        lwr         upr
+125:A-100:A  514.6666667  459.97060  569.362729
+150:A-100:A  813.3333333  758.63727  868.029396
+100:B-100:A  -19.6666667  -74.36273   35.029396
+125:B-100:A  462.3333333  407.63727  517.029396
+150:B-100:A  740.3333333  685.63727  795.029396
+100:C-100:A    0.6666667  -54.02940   55.362729
+125:C-100:A  482.0000000  427.30394  536.696063
+150:C-100:A  314.0000000  259.30394  368.696063
+150:A-125:A  298.6666667  243.97060  353.362729
+100:B-125:A -534.3333333 -589.02940 -479.637271
+125:B-125:A  -52.3333333 -107.02940    2.362729
+150:B-125:A  225.6666667  170.97060  280.362729
+100:C-125:A -514.0000000 -568.69606 -459.303937
+125:C-125:A  -32.6666667  -87.36273   22.029396
+150:C-125:A -200.6666667 -255.36273 -145.970604
+100:B-150:A -833.0000000 -887.69606 -778.303937
+125:B-150:A -351.0000000 -405.69606 -296.303937
+150:B-150:A  -73.0000000 -127.69606  -18.303937
+100:C-150:A -812.6666667 -867.36273 -757.970604
+125:C-150:A -331.3333333 -386.02940 -276.637271
+150:C-150:A -499.3333333 -554.02940 -444.637271
+125:B-100:B  482.0000000  427.30394  536.696063
+150:B-100:B  760.0000000  705.30394  814.696063
+100:C-100:B   20.3333333  -34.36273   75.029396
+125:C-100:B  501.6666667  446.97060  556.362729
+150:C-100:B  333.6666667  278.97060  388.362729
+150:B-125:B  278.0000000  223.30394  332.696063
+100:C-125:B -461.6666667 -516.36273 -406.970604
+125:C-125:B   19.6666667  -35.02940   74.362729
+150:C-125:B -148.3333333 -203.02940  -93.637271
+100:C-150:B -739.6666667 -794.36273 -684.970604
+125:C-150:B -258.3333333 -313.02940 -203.637271
+150:C-150:B -426.3333333 -481.02940 -371.637271
+125:C-100:C  481.3333333  426.63727  536.029396
+150:C-100:C  313.3333333  258.63727  368.029396
+150:C-125:C -168.0000000 -222.69606 -113.303937
+                p adj
+125:A-100:A 0.0000000
+150:A-100:A 0.0000000
+100:B-100:A 0.9307049
+125:B-100:A 0.0000000
+150:B-100:A 0.0000000
+100:C-100:A 1.0000000
+125:C-100:A 0.0000000
+150:C-100:A 0.0000000
+150:A-125:A 0.0000000
+100:B-125:A 0.0000000
+125:B-125:A 0.0670029
+150:B-125:A 0.0000000
+100:C-125:A 0.0000000
+125:C-125:A 0.5065610
+150:C-125:A 0.0000000
+100:B-150:A 0.0000000
+125:B-150:A 0.0000000
+150:B-150:A 0.0045830
+100:C-150:A 0.0000000
+125:C-150:A 0.0000000
+150:C-150:A 0.0000000
+125:B-100:B 0.0000000
+150:B-100:B 0.0000000
+100:C-100:B 0.9179607
+125:C-100:B 0.0000000
+150:C-100:B 0.0000000
+150:B-125:B 0.0000000
+100:C-125:B 0.0000000
+125:C-125:B 0.9307049
+150:C-125:B 0.0000006
+100:C-150:B 0.0000000
+125:C-150:B 0.0000000
+150:C-150:B 0.0000000
+125:C-100:C 0.0000000
+150:C-100:C 0.0000000
+150:C-125:C 0.0000001
+```
+
+#### Point E
+Gunakan compact letter display untuk menunjukkan perbedaan signifikan antara uji Anova dan uji Tukey
+
+```
+cld = multcompLetters4(data.aov2, tukey)
+print(cld)
+
+$Temp
+150 125 100 
+"a" "b" "c" 
+
+$Glass
+  A   B   C 
+"a" "b" "c" 
+
+$`Temp:Glass`
+150:A 150:B 125:A 125:C 125:B 150:C 100:C 100:A 100:B 
+  "a"   "b"   "c"   "c"   "c"   "d"   "e"   "e"   "e" 
+```
