@@ -106,7 +106,7 @@ Dari data diatas berilah keputusan serta kesimpulan yang didapatkan dari hasil d
 
 #### Point A
 H0 dan H1
-h0 : tidak ada perbedaan mean, mu1 = mu2
+h0 : tidak ada perbedaan mean, mu1 = mu2 <br>
 h1 : ada pernedaan mean, mu1 != mu2
 
 #### Point B
@@ -296,7 +296,7 @@ pelat muka (A, B dan C) pada keluaran cahaya tabung osiloskop. Percobaan dilakuk
 
 <p align="center">
   <img 
-    width="300"
+    width="150"
     height="300"
     src="https://user-images.githubusercontent.com/78489357/170882159-1289679f-a0c0-4f66-a51d-9a43478eaecc.png"
   >
