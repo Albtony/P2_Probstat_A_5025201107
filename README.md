@@ -96,7 +96,7 @@ Diketahui perusahaan memiliki seorang data analyst ingin memecahkan permasalahan
 
 <p align="center">
   <img 
-    width="300"
+    width="600"
     height="300"
     src="https://user-images.githubusercontent.com/78489357/170880928-144554af-8692-4493-a3e6-d2dbdbca447e.png"
   >
@@ -155,4 +155,138 @@ didapat p = 0.0699 > 0.5, p > 0.05
 Kesimpulan
 h0 diterima, tidak ada perbedaan antara mu1 dan mu2 
 
+## Nomor 4
+Seorang Peneliti sedang meneliti spesies dari kucing di ITS . Dalam penelitiannya ia mengumpulkan data tiga spesies kucing yaitu kucing oren, kucing hitam dan
+kucing putih dengan panjangnya masing-masing.
+
+Jika :
+diketahui dataset https://intip.in/datasetprobstat1
+
+H0 : Tidak ada perbedaan panjang antara ketiga spesies atau rata-rata panjangnya sama
+Maka Kerjakan atau Carilah:
+
+
+<p align="center">
+  <img 
+    width="100"
+    height="400"
+    src="https://user-images.githubusercontent.com/78489357/170881245-e47f489b-0033-4f3a-ae6c-a2cb69f70709.png"
+  >
+</p>
+
+#### Point A
+Buatlah masing masing jenis spesies menjadi 3 subjek "Grup" (grup 1, grup 2, grup 3). Lalu Gambarkan plot kuantil normal untuk setiap kelompok dan lihat apakah ada outlier utama dalam homogenitas varians.
+
+```
+df <- read.delim(url("https://rstatisticsandresearch.weebly.com/uploads/1/0/2/6/1026585/onewayanova.txt"))
+group = split(df, df$Group)
+
+qqnorm(group$`1`$Length, 
+       ylab = "cat length (in cms)",
+       col = "dark green")
+qqline(group$`1`$Length, 
+       col = "red")
+
+qqnorm(group$`2`$Length, 
+       ylab = "cat length (in cms)",
+       col = "dark green")
+qqline(group$`2`$Length, 
+       col = "red")
+
+qqnorm(group$`3`$Length, 
+       ylab = "cat length (in cms)",
+       col = "dark green")
+qqline(group$`3`$Length, 
+       col = "red")
+```
+
+<p align="center">
+  <img 
+    width="300"
+    height="300"
+    src="https://user-images.githubusercontent.com/78489357/170881379-8c472a54-33c1-453d-963b-ccbcb80d7d9c.png"
+  >
+  <img 
+    width="300"
+    height="300"
+    src="https://user-images.githubusercontent.com/78489357/170881422-8c7570f7-da02-4b8d-9a98-a4fbd2f58d64.png"
+  >
+  <img 
+    width="300"
+    height="300"
+    src="https://user-images.githubusercontent.com/78489357/170881403-bef2b4ae-7135-4a86-b8f8-5623e1333df2.png"
+  >
+</p>
+
+#### Point B
+carilah atau periksalah Homogeneity of variances nya , Berapa nilai p yang didapatkan? , Apa hipotesis dan kesimpulan yang dapat diambil ?
+
+```
+pval = bartlett.test(Length ~ Group, data = df)$p.value
+print(pval)
+  
+0.8053635
+```
+  
+#### Point C
+Untuk uji ANOVA (satu arah), buatlah model linier dengan Panjang versus Grup dan beri nama model tersebut model 1  
+```
+library("ggpubr")
+ggboxplot(df, x = "Group", y = "Length",
+          color = "Group", palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+          order = c("1", "2", "3"),
+          ylab = "Lenght", xlab = "Group",
+          title = "Model 1")
+
+```
+
+<p align="center">
+  <img 
+    width="300"
+    height="300"
+    src="https://user-images.githubusercontent.com/78489357/170881558-42fa1918-07e4-4bd5-851d-0215952c1658.png"
+  >
+</p>
+
+#### Point D
+Dari Hasil Poin C, Berapakah nilai-p ? , Apa yang dapat Anda simpulkan dari H0?
+nilai p > 0.05 sehingga H0 bersifat FTR, artinya saya tidak memiliki bukti yang cukup untuk menyatakan variansi antar grup adalah sama, sehingga test anova dapat dilakukan
+
+#### Point E
+Verifikasilah jawaban model 1 dengan Post-hoc test Tukey HSD, dari nilai pyang didapatkan apakah satu jenis kucing lebih panjang dari yang lain? Jelaskan.
+
+```
+data.aov <- aov(Length ~ Group, data = df)
+data.aov.factor = aov(Length ~ factor(Group), data = df)
+TukeyHSD(data.aov.factor)
+
+print(mean(group$`1`$Length))
+print(mean(group$`2`$Length))
+print(mean(group$`3`$Length))
+
+[1] 18.46571
+[1] 17.74571
+[1] 18.36286
+```
+
+terdapat 3 p values yaitu p2-1 < 0.05, p3-1 > 0.05, p3-2 < 0.05 artinya terdapat perbedaan yang signifikan antara grup 2-1 dan 2-3
+
+#### Point F
+Visualisasikan data dengan ggplot2
+
+```
+library(ggplot2)
+
+ggplot(data=df, 
+       mapping=aes(x=Length, fill=as.factor(Group))) + 
+       geom_density(alpha=.3)
+```
+
+<p align="center">
+  <img 
+    width="300"
+    height="300"
+    src="https://user-images.githubusercontent.com/78489357/170881694-7e0a6ad5-6aa7-4b4b-9fa3-d269bc0b955b.png"
+  >
+</p>
 
