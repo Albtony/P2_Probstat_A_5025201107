@@ -294,6 +294,14 @@ ggplot(data=df,
 Data yang digunakan merupakan hasil eksperimen yang dilakukan untuk mengetahui pengaruh suhu operasi (100˚C, 125˚C dan 150˚C) dan tiga jenis kaca
 pelat muka (A, B dan C) pada keluaran cahaya tabung osiloskop. Percobaan dilakukan sebanyak 27 kali dan didapat data sebagai berikut: Data Hasil Eksperimen. Dengan data tersebut:
 
+<p align="center">
+  <img 
+    width="300"
+    height="300"
+    src="https://user-images.githubusercontent.com/78489357/170882159-1289679f-a0c0-4f66-a51d-9a43478eaecc.png"
+  >
+</p>
+
 ```
 df <- read.csv(url("https://docs.google.com/uc?export=download&id=1aLUOdw_LVJq6VQrQEkuQhZ8FW43FemTJ"))
 ```
