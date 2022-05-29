@@ -5,7 +5,7 @@ x = c(78, 75, 67, 77, 70, 72, 78, 74, 77)
 y = c(100, 95, 70, 90, 90, 90, 89, 90, 100)
 
 observasi_df = data.frame(responden, x, y)
-sdev = sd(observasi_df$y - observasi_df$dx)
+sdev = sd(observasi_df$y - observasi_df$x)
 print(sdev)
 
 # point b
