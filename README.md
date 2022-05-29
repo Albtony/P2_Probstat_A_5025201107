@@ -91,4 +91,68 @@ ditemukan nilai tval = 9.0723 yang menunjukkan adanya perbedaan besar antara has
 Buatlah kesimpulan berdasarkan P-Value yang dihasilkan!
 p value yang dihasilkan memiliki nilai lebih kecil daripada 0.025, sehingga hipotesis null ditolak.
 
+## Nomor 3
+Diketahui perusahaan memiliki seorang data analyst ingin memecahkan permasalahan pengambilan keputusan dalam perusahaan tersebut. Selanjutnya didapatkanlah data berikut dari perusahaan saham tersebut.
+
+<p align="center">
+  <img 
+    width="300"
+    height="300"
+    src="https://user-images.githubusercontent.com/78489357/170880928-144554af-8692-4493-a3e6-d2dbdbca447e.png"
+  >
+</p>
+
+Dari data diatas berilah keputusan serta kesimpulan yang didapatkan dari hasil diatas. Asumsikan nilai variancenya sama, apakah ada perbedaan pada rata-ratanya (α= 0.05)? Buatlah :
+
+#### Point A
+H0 dan H1
+h0 : tidak ada perbedaan mean, mu1 = mu2
+h1 : ada pernedaan mean, mu1 != mu2
+
+#### Point B
+Hitung Sampel Statistik
+```
+x1 = 3.64
+x2 = 2.79
+
+n1 = 19
+n2 = 27
+
+s1 = 1.67
+s2 = 1.32
+
+sp_quad = ((n1-1)*(s1**2)+(n2-1)*(s2**2))/((n1-1)+(n2-1))
+print(sp_quad)
+
+[1] 2.170514
+```
+
+#### Point C
+Lakukan Uji Statistik (df =2)
+```
+tval = ((x1-x2)-(0))/sqrt((sp_quad)*((1/n1)+(1/n2)))
+pval = 2*pt(q=tval, df=19-1, lower.tail=FALSE)
+print(pval)
+
+[1] 0.06995324
+```
+
+#### Point D
+Nilai Kritikal
+```
+sigval = 0.05
+critval = qt(p=sigval/2, df=2, lower.tail=FALSE)
+print(critval)
+
+[1] 4.302653
+```
+
+#### Point E
+Keputusan
+didapat p = 0.0699 > 0.5, p > 0.05
+
+#### Point F
+Kesimpulan
+h0 diterima, tidak ada perbedaan antara mu1 dan mu2 
+
 
