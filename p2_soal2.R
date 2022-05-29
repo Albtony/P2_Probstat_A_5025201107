@@ -12,7 +12,8 @@ t.test(dataset, akternative='two.sided', mu = t_mu)
 
 # point a
 # jawab : 
-# tidak, karena hasil t test menunjukkan sebaliknya 
+# ya, karena hasil t test menunjukkan nilai p adalah signifikan
+# sehingga menolak H0, dengan CI 95% dan rentang nilai  22992.39 - 24519.21
 
 # point b 
 # jawab : 
